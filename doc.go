@@ -1,15 +1,4 @@
-/*
-Package tdorm 是一个基于 TDengine REST 驱动的轻量 ORM 封装。
-
-它提供连接与数据库切换、超级表/子表管理、写入（单行与批量）、
-通用查询与筛选构建、多表聚合与按 TAGS 分组、时间降采样与插值、
-异步查询（通道与取消）、连续查询（CQ）与基于轮询的订阅等能力。
-
-源代码仓库
-- https://github.com/GlennLiu0607/tdorm.git
-
-开源许可
-本项目为个人所有，遵循仓库中的 LICENSE。
-如有商业/闭源使用、二次分发或定制需求，请联系：刘国田 glennliu0607@gmail.com。
-*/
+// Package tdorm 提供 TDengine REST ORM 封装。
+// 仓库：https://github.com/GlennLiu0607/tdorm.git
+// 许可：本项目为私有协议。非商业内部使用可免费；任何商业使用或再分发必须事先征得作者（Glenn Liu）书面同意并签署商业授权协议；商业授权与合作请联系：glennliu0607@gmail.com。
 package tdorm

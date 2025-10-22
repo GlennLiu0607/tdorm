@@ -1,21 +1,41 @@
-MIT License
+<!--
+ * @Author: GlennLiu <glennliu0607@gmail.com>
+ * @Date: 2025-10-22 17:26:17
+ * @LastEditors: Glenn 18322653727@163.com
+ * @LastEditTime: 2025-10-22 17:38:00
+ * @FilePath: \tdorm\LICENSE
+ * @Description: 
+ * 
+ * Copyright (c) 2025 by 天津晟源士兴科技有限公司, All Rights Reserved. 
+-->
+TDORM 软件许可协议（私有，商业使用需授权）
 
-Copyright (c) 2025 Glenn Liu
+版权所有 © 2025 Glenn Liu
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+许可条款（中文版为准）：
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. 许可范围（非商业使用）
+- 允许个人或组织在非商业场景中使用、复制、修改本软件及其源代码；
+- 非商业使用仅限于学习、研究或内部使用，且不得对外分发修改后的软件或以任何形式提供有偿服务；
+- 未经作者事先书面同意，禁止将本软件或其衍生作品以任何形式公开发布、再分发或组合进其他开源/闭源项目对外提供。
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. 商业使用与分发
+- 任何商业使用（包括但不限于对外销售、提供付费服务、SaaS、将本软件集成进商业产品对外发布）必须事先征得作者的书面同意并签署商业授权协议；
+- 商业授权请联系：glennliu0607@gmail.com；
+- 未经授权的商业使用或分发构成侵权，作者保留依法追究法律责任的权利。
+
+3. 禁止行为
+- 禁止移除本协议、版权声明或作者标识；
+- 禁止在未获授权情况下进行任何形式的再分发、转售、付费提供或将本软件用于盈利活动；
+- 禁止将本软件用于违法违规用途。
+
+4. 无担保与责任限制
+- 本软件按“现状”提供，不附带任何明示或暗示的保证，包括但不限于适销性、特定用途适用性及非侵权性；
+- 在任何情况下，作者不对因使用或无法使用本软件而导致的直接或间接损失承担责任。
+
+5. 其他
+- 如本协议与其他文件存在冲突，以本协议为准；
+- 作者保留随时更新或变更本协议的权利；变更后版本将发布于仓库中并立即生效。
+
+英文摘要（供参考，中文优先）：
+This software is proprietary and source-available. Non-commercial internal use is permitted. Any commercial use or redistribution requires prior written consent from the author (glennliu0607@gmail.com). The software is provided "as is" without warranties; liability is disclaimed.

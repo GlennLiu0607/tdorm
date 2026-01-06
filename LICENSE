@@ -1,7 +1,7 @@
 <!--
  * @Author: GlennLiu <glennliu0607@gmail.com>
  * @Date: 2025-10-22 17:26:17
- * @LastEditors: Glenn 18322653727@163.com
+ * @LastEditors:
  * @LastEditTime: 2025-10-22 17:38:00
  * @FilePath: \tdorm\LICENSE
  * @Description: 
@@ -12,7 +12,7 @@ TDORM 软件许可协议（私有，商业使用需授权）
 
 版权所有 © 2025 Glenn Liu
 
-许可条款（中文版为准）：
+许可条款：
 
 1. 许可范围（非商业使用）
 - 允许个人或组织在非商业场景中使用、复制、修改本软件及其源代码；
@@ -36,6 +36,3 @@ TDORM 软件许可协议（私有，商业使用需授权）
 5. 其他
 - 如本协议与其他文件存在冲突，以本协议为准；
 - 作者保留随时更新或变更本协议的权利；变更后版本将发布于仓库中并立即生效。
-
-英文摘要（供参考，中文优先）：
-This software is proprietary and source-available. Non-commercial internal use is permitted. Any commercial use or redistribution requires prior written consent from the author (glennliu0607@gmail.com). The software is provided "as is" without warranties; liability is disclaimed.

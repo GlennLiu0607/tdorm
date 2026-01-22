@@ -1,9 +1,9 @@
 /*
  * @Author: GlennLiu <glennliu0607@gmail.com>
  * @Date: 2025-10-22 16:14:02
- * @LastEditors: Glenn glennliu0607@gmail.com
- * @LastEditTime: 2025-10-22 16:14:02
- * @FilePath: \client.go
+ * @LastEditors: Glenn 18322653727@163.com
+ * @LastEditTime: 2026-01-22 14:10:37
+ * @FilePath: \tdorm\client.go
  * @Description:
  *
  * Copyright (c) 2025 by 天津晟源士兴科技有限公司, All Rights Reserved.
@@ -116,6 +116,39 @@ func (c *Client) AddColumnToStable(stable string, col ColumnDef) error {
 	sqlStr := fmt.Sprintf("ALTER STABLE %s ADD COLUMN %s %s", st, colName, col.Type)
 	_, err = c.DB.Exec(sqlStr)
 	return err
+}
+
+// GetStableColumns 获取超级表的所有列名（包含 TAGS）
+// 注意：基于 DESCRIBE 语句实现，返回顺序可能与定义顺序一致
+func (c *Client) GetStableColumns(stable string) ([]string, error) {
+	st, err := sanitizeIdent(stable)
+	if err != nil {
+		return nil, err
+	}
+	// TDengine DESCRIBE 返回: Field, Type, Length, Note
+	rows, err := c.DB.Query("DESCRIBE " + st)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var cols []string
+	for rows.Next() {
+		var field, typ, length, note interface{}
+		// Scan 4 列
+		if err := rows.Scan(&field, &typ, &length, &note); err != nil {
+			return nil, err
+		}
+		// 转换 field 为 string
+		if s, ok := field.(string); ok {
+			cols = append(cols, s)
+		} else if b, ok := field.([]byte); ok {
+			cols = append(cols, string(b))
+		} else {
+			cols = append(cols, fmt.Sprintf("%v", field))
+		}
+	}
+	return cols, nil
 }
 
 // EnsureSubTable 基于超级表自动创建子表（带 TAGS 值）
@@ -600,6 +633,15 @@ func (c *Client) AddColumnToStableMsg(stable string, col ColumnDef) (string, err
 		return "", fmt.Errorf("AddColumnToStable %s failed: %w", stable, err)
 	}
 	return fmt.Sprintf("超级表 %s 已增加列: %s", stable, col.Name), nil
+}
+
+// GetStableColumnsMsg 获取超级表列名并返回提示
+func (c *Client) GetStableColumnsMsg(stable string) ([]string, string, error) {
+	cols, err := c.GetStableColumns(stable)
+	if err != nil {
+		return nil, "", fmt.Errorf("GetStableColumns %s failed: %w", stable, err)
+	}
+	return cols, fmt.Sprintf("获取列名成功，共 %d 列", len(cols)), nil
 }
 
 // EnsureSubTableMsg 创建子表并返回提示

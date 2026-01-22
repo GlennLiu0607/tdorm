@@ -133,6 +133,24 @@ func TestClientLifecycle_Optional(t *testing.T) {
 		t.Fatalf("insert with new column: %v", err)
 	}
 
+	// 测试：获取超级表列名
+	colsList, msg, err := client.GetStableColumnsMsg("meters")
+	if err != nil {
+		t.Fatalf("get stable columns: %v", err)
+	}
+	t.Log(msg, colsList)
+	// 简单验证是否包含 ts, current, voltage, phase, location, groupId, humidity
+	foundHumidity := false
+	for _, c := range colsList {
+		if c == "humidity" {
+			foundHumidity = true
+			break
+		}
+	}
+	if !foundHumidity {
+		t.Fatalf("expected 'humidity' column in stable schema, got: %v", colsList)
+	}
+
 	f := Filter{Conditions: []Condition{{Column: "voltage", Op: ">=", Value: 218}}, Conj: "AND", OrderBy: "ts", Desc: true, Limit: 5}
 	rows, err := client.Query("d1001", []string{"ts", "current", "voltage", "phase", "humidity"}, f)
 	if err != nil {
@@ -157,7 +175,7 @@ func TestClientLifecycle_Optional(t *testing.T) {
 	} else {
 		t.Log(msg)
 	}
-	
+
 	// 简单验证流存在性 (CreateStream 是幂等的 IF NOT EXISTS)
 	if err := client.CreateStream(streamDef); err != nil {
 		t.Fatalf("create stream idempotency: %v", err)

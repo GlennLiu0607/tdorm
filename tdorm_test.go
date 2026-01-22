@@ -121,12 +121,52 @@ func TestClientLifecycle_Optional(t *testing.T) {
 		t.Fatalf("insert: %v", err)
 	}
 
+	// 测试：增加列
+	newCol := ColumnDef{Name: "humidity", Type: "FLOAT"}
+	if msg, err := client.AddColumnToStableMsg("meters", newCol); err != nil {
+		t.Fatalf("add column: %v", err)
+	} else {
+		t.Log(msg)
+	}
+	// 验证插入新列数据
+	if err := client.Insert("d1001", map[string]interface{}{"current": 10.5, "humidity": 45.2}); err != nil {
+		t.Fatalf("insert with new column: %v", err)
+	}
+
 	f := Filter{Conditions: []Condition{{Column: "voltage", Op: ">=", Value: 218}}, Conj: "AND", OrderBy: "ts", Desc: true, Limit: 5}
-	rows, err := client.Query("d1001", []string{"ts", "current", "voltage", "phase"}, f)
+	rows, err := client.Query("d1001", []string{"ts", "current", "voltage", "phase", "humidity"}, f)
 	if err != nil {
 		t.Fatalf("query: %v", err)
 	}
 	if len(rows) == 0 {
 		t.Fatalf("expected at least one row after insert")
+	}
+
+	// 测试：流计算
+	streamDef := StreamDef{
+		Name:         "avg_current_1m",
+		TargetTable:  "meters_avg_1m",
+		SubQuery:     "SELECT avg(current) FROM meters PARTITION BY location INTERVAL(1m)",
+		IfNotExists:  true,
+		Trigger:      "AT_ONCE",
+		Watermark:    10 * time.Second,
+		OtherOptions: []string{"IGNORE DISORDER"},
+	}
+	if msg, err := client.CreateStreamMsg(streamDef); err != nil {
+		t.Fatalf("create stream: %v", err)
+	} else {
+		t.Log(msg)
+	}
+	
+	// 简单验证流存在性 (CreateStream 是幂等的 IF NOT EXISTS)
+	if err := client.CreateStream(streamDef); err != nil {
+		t.Fatalf("create stream idempotency: %v", err)
+	}
+
+	// 删除流
+	if msg, err := client.DropStreamMsg("avg_current_1m"); err != nil {
+		t.Fatalf("drop stream: %v", err)
+	} else {
+		t.Log(msg)
 	}
 }

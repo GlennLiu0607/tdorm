@@ -103,6 +103,21 @@ func (c *Client) CreateStable(stable string, columns []ColumnDef, tagColumns []C
 	return err
 }
 
+// AddColumnToStable 为超级表增加列（采集字段）。此操作会自动应用到所有子表。
+func (c *Client) AddColumnToStable(stable string, col ColumnDef) error {
+	st, err := sanitizeIdent(stable)
+	if err != nil {
+		return err
+	}
+	colName, err := sanitizeIdent(col.Name)
+	if err != nil {
+		return err
+	}
+	sqlStr := fmt.Sprintf("ALTER STABLE %s ADD COLUMN %s %s", st, colName, col.Type)
+	_, err = c.DB.Exec(sqlStr)
+	return err
+}
+
 // EnsureSubTable 基于超级表自动创建子表（带 TAGS 值）
 func (c *Client) EnsureSubTable(sub string, stable string, tagValues []interface{}) error {
 	subName, err := sanitizeIdent(sub)
@@ -577,6 +592,14 @@ func (c *Client) CreateStableMsg(stable string, columns []ColumnDef, tagColumns 
 		return "", fmt.Errorf("CreateStable %s failed: %w", stable, err)
 	}
 	return fmt.Sprintf("超级表已创建/存在: %s", stable), nil
+}
+
+// AddColumnToStableMsg 为超级表增加列并返回提示
+func (c *Client) AddColumnToStableMsg(stable string, col ColumnDef) (string, error) {
+	if err := c.AddColumnToStable(stable, col); err != nil {
+		return "", fmt.Errorf("AddColumnToStable %s failed: %w", stable, err)
+	}
+	return fmt.Sprintf("超级表 %s 已增加列: %s", stable, col.Name), nil
 }
 
 // EnsureSubTableMsg 创建子表并返回提示
